@@ -622,7 +622,7 @@
             </p>
 
             <div class="upload-grid">
-                <div class="upload-box" id="csUploadBox" onclick="document.getElementById('csFileInput').click()">
+                <div class="upload-box" id="csUploadBox">
                     <div class="upload-number">1</div>
                     <div class="upload-icon">🗣️</div>
                     <h3>Continuous Speech</h3>
@@ -636,14 +636,14 @@
                         </ul>
                     </div>
                     <input type="file" id="csFileInput" class="file-input" accept="audio/*">
-                    <button class="upload-button" onclick="event.stopPropagation()">Choose File</button>
+                    <button class="upload-button" onclick="document.getElementById('csFileInput').click()">Choose File</button>
                     <div class="audio-preview" id="csPreview">
                         <p style="font-size: 0.9rem; color: var(--success); font-weight: 600;">✓ File uploaded successfully</p>
                         <audio id="csAudio" controls></audio>
                     </div>
                 </div>
 
-                <div class="upload-box" id="svUploadBox" onclick="document.getElementById('svFileInput').click()">
+                <div class="upload-box" id="svUploadBox">
                     <div class="upload-number">2</div>
                     <div class="upload-icon">🎵</div>
                     <h3>Sustained Vowel /a/</h3>
@@ -657,7 +657,7 @@
                         </ul>
                     </div>
                     <input type="file" id="svFileInput" class="file-input" accept="audio/*">
-                    <button class="upload-button" onclick="event.stopPropagation()">Choose File</button>
+                    <button class="upload-button" onclick="document.getElementById('svFileInput').click()">Choose File</button>
                     <div class="audio-preview" id="svPreview">
                         <p style="font-size: 0.9rem; color: var(--success); font-weight: 600;">✓ File uploaded successfully</p>
                         <audio id="svAudio" controls></audio>
@@ -857,4 +857,132 @@
             if (abiScore > 2.94) {
                 document.getElementById('abiCard').classList.remove('normal');
                 document.getElementById('abiCard').classList.add('elevated');
+                document.getElementById('abiStatus').classList.remove('normal-status');
+                document.getElementById('abiStatus').classList.add('elevated-status');
+            }
+
+            // ABI Components
+            if (data.abi.components) {
+                const abiComp = document.getElementById('abiComponents');
+                abiComp.innerHTML = Object.entries(data.abi.components)
+                    .map(([key, val]) => `
+                        <div class="component-item">
+                            <span>${key.toUpperCase()}</span>
+                            <strong>${val.toFixed(2)}</strong>
+                        </div>
+                    `).join('');
+            }
+
+            // Traditional parameters
+            document.getElementById('f0Value').textContent = data.f0.mean.toFixed(1) + ' Hz';
+            document.getElementById('f0Status').textContent = data.f0.status;
+            
+            document.getElementById('jitterValue').textContent = data.jitter.percent.toFixed(2) + '%';
+            document.getElementById('jitterStatus').textContent = data.jitter.status;
+            
+            document.getElementById('shimmerValue').textContent = data.shimmer.percent.toFixed(2) + '%';
+            document.getElementById('shimmerStatus').textContent = data.shimmer.status;
+            
+            document.getElementById('hnrValue').textContent = data.hnr.mean.toFixed(1) + ' dB';
+            document.getElementById('hnrStatus').textContent = data.hnr.status;
+            
+            document.getElementById('cppValue').textContent = data.cpp.value.toFixed(2) + ' dB';
+            document.getElementById('cppStatus').textContent = data.cpp.status;
+
+            // Interpretation
+            const list = document.getElementById('interpretationList');
+            list.innerHTML = '';
+            
+            const overall = document.createElement('li');
+            overall.innerHTML = `<strong>${data.interpretation.overall_assessment}</strong>`;
+            list.appendChild(overall);
+
+            if (data.interpretation.concerns && data.interpretation.concerns.length > 0) {
+                const concernsHeader = document.createElement('li');
+                concernsHeader.innerHTML = '<strong style="color: var(--warning);">Key Concerns:</strong>';
+                list.appendChild(concernsHeader);
+                
+                data.interpretation.concerns.forEach(concern => {
+                    const li = document.createElement('li');
+                    li.textContent = concern;
+                    li.style.marginLeft = '1.5rem';
+                    list.appendChild(li);
+                });
+            }
+
+            if (data.interpretation.recommendations && data.interpretation.recommendations.length > 0) {
+                const recsHeader = document.createElement('li');
+                recsHeader.innerHTML = '<strong style="color: var(--primary);">Recommendations:</strong>';
+                list.appendChild(recsHeader);
+                
+                data.interpretation.recommendations.forEach(rec => {
+                    const li = document.createElement('li');
+                    li.textContent = rec;
+                    li.style.marginLeft = '1.5rem';
+                    list.appendChild(li);
+                });
+            }
+
+            // Show results
+            document.getElementById('resultsSection').style.display = 'block';
+            
+            // Scroll to results
+            setTimeout(() => {
+                document.getElementById('resultsSection').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+            }, 300);
+        }
+
+        async function downloadPDF() {
+            if (!currentResults) return;
+
+            try {
+                const response = await fetch('https://voice-analyzer-api.onrender.com/generate-pdf', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        report_type: 'voice',
+                        analysis_results: currentResults
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('PDF generation failed');
+                }
+
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `avqi_abi_report_${new Date().toISOString().slice(0,10)}.pdf`;
+                link.click();
+                URL.revokeObjectURL(url);
+
+            } catch (error) {
+                alert('PDF generation failed: ' + error.message);
+            }
+        }
+
+        function analyzeAnother() {
+            csFile = null;
+            svFile = null;
+            currentResults = null;
+            
+            document.getElementById('csUploadBox').classList.remove('uploaded');
+            document.getElementById('svUploadBox').classList.remove('uploaded');
+            document.getElementById('csPreview').style.display = 'none';
+            document.getElementById('svPreview').style.display = 'none';
+            document.getElementById('analyzeButton').style.display = 'none';
+            document.getElementById('resultsSection').style.display = 'none';
+            
+            document.getElementById('csFileInput').value = '';
+            document.getElementById('svFileInput').value = '';
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
                 
