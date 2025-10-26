@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVQI & ABI Analyzer - Professional Voice Quality Assessment | Phonalab</title>
+    <meta name="description" content="First web-based AVQI and ABI calculator. Validated multiparametric indices for Brazilian Portuguese. Professional voice quality and breathiness assessment.">
+    
+    <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --bg: #f9fafb;
+            --white: #ffffff;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .tool-header {
+            padding: 60px 0 40px;
+            text-align: left;
+        }
+
+        .tool-header h1 {
+            font-size: 2.5rem;
+            color: var(--text);
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+        }
+
+        .tool-header .subtitle {
+            color: var(--text-light);
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .info-highlight {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
+            border-left: 4px solid var(--success);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-highlight h3 {
+            color: var(--success);
+            margin-bottom: 0.75rem;
+            font-size: 1.2rem;
+        }
+
+        .info-highlight p {
+            color: var(--text);
+            margin: 0.5rem 0;
+        }
+
+        .validation-badge {
+            background: rgba(59, 130, 246, 0.1);
+            border: 2px solid var(--info);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .validation-badge-icon {
+            font-size: 2rem;
+        }
+
+        .validation-badge-text {
+            flex: 1;
+        }
+
+        .validation-badge-text strong {
+            color: var(--info);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .validation-badge-text p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .dual-upload-section {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 3rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .upload-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .upload-box {
+            border: 2px dashed var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            background: var(--bg);
+            position: relative;
+        }
+
+        .upload-box:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .upload-box.uploaded {
+            border-color: var(--success);
+            border-style: solid;
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .upload-number {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--primary);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .upload-box h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .upload-box p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin: 0.5rem 0;
+        }
+
+        .upload-box .instructions {
+            background: white;
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            text-align: left;
+        }
+
+        .upload-box .instructions li {
+            margin: 0.25rem 0;
+            color: var(--text-light);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-button {
+            background: var(--primary);
+            color: white;
+            padding: 10px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .upload-button:hover {
+            background: var(--primary-dark);
+        }
+
+        .analyze-button {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+            padding: 18px 48px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 2rem;
+            display: none;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .analyze-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+        }
+
+        .analyze-button:disabled {
+            background: var(--text-light);
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .audio-preview {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .audio-preview audio {
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 3rem 0;
+            padding: 3rem;
+            background: var(--white);
+            border-radius: 12px;
+        }
+
+        .spinner {
+            border: 4px solid var(--border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .results-section {
+            display: none;
+            animation: fadeIn 0.6s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .avqi-abi-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .score-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .score-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+        }
+
+        .score-card.normal::before {
+            background: linear-gradient(90deg, var(--success), #059669);
+        }
+
+        .score-card.elevated::before {
+            background: linear-gradient(90deg, var(--warning), #d97706);
+        }
+
+        .score-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .score-card .score {
+            font-size: 4.5rem;
+            font-weight: 700;
+            color: var(--text);
+            margin: 1rem 0;
+            line-height: 1;
+        }
+
+        .score-card .cutoff {
+            font-size: 1rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .score-card .status {
+            display: inline-block;
+            padding: 10px 24px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .status.normal-status {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+        }
+
+        .status.elevated-status {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--warning);
+        }
+
+        .components-detail {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .components-detail summary {
+            cursor: pointer;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: left;
+            padding: 0.5rem;
+        }
+
+        .components-detail summary:hover {
+            color: var(--primary-dark);
+        }
+
+        .component-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            text-align: left;
+            font-size: 0.85rem;
+        }
+
+        .component-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem;
+            background: var(--bg);
+            border-radius: 4px;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .result-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+        }
+
+        .result-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .result-label {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .result-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .result-status {
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .interpretation {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin: 2rem 0;
+        }
+
+        .interpretation h2 {
+            margin-bottom: 1.5rem;
+            font-size: 1.75rem;
+        }
+
+        .interpretation-list {
+            list-style: none;
+        }
+
+        .interpretation-list li {
+            padding: 0.75rem 0;
+            display: flex;
+            align-items: start;
+        }
+
+        .interpretation-list li::before {
+            content: "→";
+            color: var(--primary);
+            margin-right: 1rem;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .button {
+            padding: 14px 32px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .button-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .button-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .button-secondary {
+            background: white;
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+
+        .button-secondary:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 20px;
+            }
+
+            .upload-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .avqi-abi-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .tool-header h1 {
+                font-size: 2rem;
+            }
+
+            .component-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="https://phonalab.com" class="logo">🔬 Phonalab</a>
+            <nav class="nav-links">
+                <a href="https://phonalab.com">Home</a>
+                <a href="https://analyzer.phonalab.com">Voice Analyzer</a>
+                <a href="https://avqi.phonalab.com">AVQI/ABI</a>
+                <a href="https://pitch.phonalab.com">Pitch Visualizer</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="tool-header">
+            <div class="badge">✨ World's First Web-Based AVQI & ABI Calculator</div>
+            <h1>AVQI & ABI Analyzer</h1>
+            <p class="subtitle">Professional multiparametric voice quality and breathiness assessment</p>
+        </div>
+
+        <div class="validation-badge">
+            <div class="validation-badge-icon">🇧🇷</div>
+            <div class="validation-badge-text">
+                <strong>Validated for Brazilian Portuguese</strong>
+                <p>Using validated cutoff points: AVQI > 1.33 and ABI > 2.94 for dysphonia detection</p>
+            </div>
+        </div>
+
+        <div class="info-highlight">
+            <h3>🎯 What are AVQI and ABI?</h3>
+            <p><strong>AVQI (Acoustic Voice Quality Index)</strong> combines 6 acoustic parameters into a single validated score for overall dysphonia severity. More reliable than single-parameter measurements.</p>
+            <p style="margin-top: 0.75rem;"><strong>ABI (Acoustic Breathiness Index)</strong> combines 9 acoustic parameters specifically designed to quantify breathiness perception with high accuracy.</p>
+        </div>
+
+        <div class="dual-upload-section">
+            <h2 style="margin-bottom: 1.5rem;">Upload Two Recordings</h2>
+            <p style="color: var(--text-light); margin-bottom: 2rem;">
+                For accurate AVQI and ABI calculation, we need two separate recordings following the standard protocol:
+            </p>
+
+            <div class="upload-grid">
+                <div class="upload-box" id="csUploadBox" onclick="document.getElementById('csFileInput').click()">
+                    <div class="upload-number">1</div>
+                    <div class="upload-icon">🗣️</div>
+                    <h3>Continuous Speech</h3>
+                    <p>Patient reading passage or speaking naturally</p>
+                    <div class="instructions">
+                        <strong>Recording Instructions:</strong>
+                        <ul style="list-style: none; padding-left: 0;">
+                            <li>✓ 10-20 seconds duration</li>
+                            <li>✓ Natural pitch and volume</li>
+                            <li>✓ Conversational pace</li>
+                        </ul>
+                    </div>
+                    <input type="file" id="csFileInput" class="file-input" accept="audio/*">
+                    <button class="upload-button" onclick="event.stopPropagation()">Choose File</button>
+                    <div class="audio-preview" id="csPreview">
+                        <p style="font-size: 0.9rem; color: var(--success); font-weight: 600;">✓ File uploaded successfully</p>
+                        <audio id="csAudio" controls></audio>
+                    </div>
+                </div>
+
+                <div class="upload-box" id="svUploadBox" onclick="document.getElementById('svFileInput').click()">
+                    <div class="upload-number">2</div>
+                    <div class="upload-icon">🎵</div>
+                    <h3>Sustained Vowel /a/</h3>
+                    <p>Patient sustaining "aahhh" vowel</p>
+                    <div class="instructions">
+                        <strong>Recording Instructions:</strong>
+                        <ul style="list-style: none; padding-left: 0;">
+                            <li>✓ 3-5 seconds duration</li>
+                            <li>✓ Steady pitch and volume</li>
+                            <li>✓ Don't fade at end</li>
+                        </ul>
+                    </div>
+                    <input type="file" id="svFileInput" class="file-input" accept="audio/*">
+                    <button class="upload-button" onclick="event.stopPropagation()">Choose File</button>
+                    <div class="audio-preview" id="svPreview">
+                        <p style="font-size: 0.9rem; color: var(--success); font-weight: 600;">✓ File uploaded successfully</p>
+                        <audio id="svAudio" controls></audio>
+                    </div>
+                </div>
+            </div>
+
+            <button class="analyze-button" id="analyzeButton" onclick="analyzeVoice()">
+                🔬 Calculate AVQI & ABI
+            </button>
+        </div>
+
+        <div class="loading" id="loadingSection">
+            <div class="spinner"></div>
+            <p style="font-size: 1.2rem; font-weight: 600;">Calculating AVQI and ABI...</p>
+            <p style="color: var(--text-light); font-size: 0.95rem; margin-top: 0.5rem;">
+                Using dual-file method with validated algorithms • This may take 15-20 seconds
+            </p>
+        </div>
+
+        <div class="results-section" id="resultsSection">
+            <h2 style="font-size: 2rem; margin-bottom: 2rem;">Analysis Results</h2>
+
+            <div class="avqi-abi-cards">
+                <div class="score-card normal" id="avqiCard">
+                    <h2>AVQI Score</h2>
+                    <div class="score" id="avqiScore">--</div>
+                    <div class="cutoff">Cutoff: 1.33</div>
+                    <div class="status normal-status" id="avqiStatus">Loading...</div>
+                    
+                    <details class="components-detail">
+                        <summary>View 6 component parameters</summary>
+                        <div class="component-list" id="avqiComponents"></div>
+                    </details>
+                </div>
+
+                <div class="score-card normal" id="abiCard">
+                    <h2>ABI Score</h2>
+                    <div class="score" id="abiScore">--</div>
+                    <div class="cutoff">Cutoff: 2.94</div>
+                    <div class="status normal-status" id="abiStatus">Loading...</div>
+                    
+                    <details class="components-detail">
+                        <summary>View 9 component parameters</summary>
+                        <div class="component-list" id="abiComponents"></div>
+                    </details>
+                </div>
+            </div>
+
+            <div class="interpretation">
+                <h2>Clinical Interpretation</h2>
+                <div id="interpretationText">
+                    <ul class="interpretation-list" id="interpretationList"></ul>
+                </div>
+            </div>
+
+            <div style="background: var(--white); border-radius: 12px; padding: 2rem; margin-bottom: 2rem;">
+                <h3 style="margin-bottom: 1.5rem;">Traditional Acoustic Parameters</h3>
+                <div class="results-grid">
+                    <div class="result-card">
+                        <div class="result-label">F0 Mean</div>
+                        <div class="result-value" id="f0Value">--</div>
+                        <div class="result-status" id="f0Status"></div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-label">Jitter</div>
+                        <div class="result-value" id="jitterValue">--</div>
+                        <div class="result-status" id="jitterStatus"></div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-label">Shimmer</div>
+                        <div class="result-value" id="shimmerValue">--</div>
+                        <div class="result-status" id="shimmerStatus"></div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-label">HNR</div>
+                        <div class="result-value" id="hnrValue">--</div>
+                        <div class="result-status" id="hnrStatus"></div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-label">CPP</div>
+                        <div class="result-value" id="cppValue">--</div>
+                        <div class="result-status" id="cppStatus"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="button button-primary" onclick="downloadPDF()">
+                    📄 Download PDF Report
+                </button>
+                <button class="button button-secondary" onclick="analyzeAnother()">
+                    🔄 Analyze Another Patient
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer style="padding: 3rem 0; text-align: center; color: var(--text-light); background: var(--white); border-top: 1px solid var(--border); margin-top: 4rem;">
+        <p><strong>Phonalab</strong> - Professional Voice Analysis Tools</p>
+        <p style="font-size: 0.9rem; margin-top: 0.5rem;">
+            Developed by Dr. Jorge C. Lucero, University of Brasília • For clinical correlation only
+        </p>
+    </footer>
+
+    <script>
+        let csFile = null;
+        let svFile = null;
+        let currentResults = null;
+
+        document.getElementById('csFileInput').addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                csFile = e.target.files[0];
+                document.getElementById('csUploadBox').classList.add('uploaded');
+                document.getElementById('csPreview').style.display = 'block';
+                document.getElementById('csAudio').src = URL.createObjectURL(csFile);
+                checkBothFilesUploaded();
+            }
+        });
+
+        document.getElementById('svFileInput').addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                svFile = e.target.files[0];
+                document.getElementById('svUploadBox').classList.add('uploaded');
+                document.getElementById('svPreview').style.display = 'block';
+                document.getElementById('svAudio').src = URL.createObjectURL(svFile);
+                checkBothFilesUploaded();
+            }
+        });
+
+        function checkBothFilesUploaded() {
+            if (csFile && svFile) {
+                document.getElementById('analyzeButton').style.display = 'block';
+            }
+        }
+
+        async function analyzeVoice() {
+            document.getElementById('loadingSection').style.display = 'block';
+            document.getElementById('resultsSection').style.display = 'none';
+
+            try {
+                const formData = new FormData();
+                formData.append('continuous_speech', csFile);
+                formData.append('sustained_vowel', svFile);
+
+                const response = await fetch('https://voice-analyzer-api.onrender.com/analyze-full', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error('Analysis failed');
+                }
+
+                const data = await response.json();
+                currentResults = data;
+                displayResults(data);
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Analysis error: ' + error.message + '\n\nPlease ensure both audio files are valid and try again.');
+            } finally {
+                document.getElementById('loadingSection').style.display = 'none';
+            }
+        }
+
+        function displayResults(data) {
+            // AVQI
+            const avqiScore = data.avqi.score;
+            document.getElementById('avqiScore').textContent = avqiScore.toFixed(2);
+            document.getElementById('avqiStatus').textContent = data.avqi.status;
+            
+            if (avqiScore > 1.33) {
+                document.getElementById('avqiCard').classList.remove('normal');
+                document.getElementById('avqiCard').classList.add('elevated');
+                document.getElementById('avqiStatus').classList.remove('normal-status');
+                document.getElementById('avqiStatus').classList.add('elevated-status');
+            }
+
+            // AVQI Components
+            if (data.avqi.components) {
+                const avqiComp = document.getElementById('avqiComponents');
+                avqiComp.innerHTML = Object.entries(data.avqi.components)
+                    .map(([key, val]) => `
+                        <div class="component-item">
+                            <span>${key.toUpperCase()}</span>
+                            <strong>${val.toFixed(2)}</strong>
+                        </div>
+                    `).join('');
+            }
+
+            // ABI
+            const abiScore = data.abi.score;
+            document.getElementById('abiScore').textContent = abiScore.toFixed(2);
+            document.getElementById('abiStatus').textContent = data.abi.status;
+            
+            if (abiScore > 2.94) {
+                document.getElementById('abiCard').classList.remove('normal');
+                document.getElementById('abiCard').classList.add('elevated');
+                
