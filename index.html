@@ -113,30 +113,29 @@
             margin-bottom: 1rem;
         }
 
-        .info-highlight {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
-            border-left: 4px solid var(--success);
+        .info-box {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border-left: 4px solid var(--primary);
             border-radius: 8px;
             padding: 1.5rem;
             margin-bottom: 2rem;
         }
 
-        .info-highlight h3 {
-            color: var(--success);
-            margin-bottom: 0.75rem;
-            font-size: 1.2rem;
+        .info-box p {
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0.5rem 0;
         }
 
-        .info-highlight p {
-            color: var(--text);
-            margin: 0.5rem 0;
+        .info-box strong {
+            color: var(--primary);
         }
 
         .validation-badge {
             background: rgba(59, 130, 246, 0.1);
             border: 2px solid var(--info);
             border-radius: 8px;
-            padding: 1rem;
+            padding: 1.5rem;
             margin-bottom: 2rem;
             display: flex;
             align-items: center;
@@ -144,7 +143,7 @@
         }
 
         .validation-badge-icon {
-            font-size: 2rem;
+            font-size: 2.5rem;
         }
 
         .validation-badge-text {
@@ -155,12 +154,71 @@
             color: var(--info);
             display: block;
             margin-bottom: 0.25rem;
+            font-size: 1.1rem;
         }
 
         .validation-badge-text p {
             margin: 0;
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        .protocol-steps {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .protocol-steps h3 {
+            color: var(--text);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .step-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--bg);
+            border-radius: 8px;
+            transition: transform 0.2s;
+        }
+
+        .step-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin: 0 auto 1rem;
+        }
+
+        .step-item h4 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .step-item p {
             font-size: 0.9rem;
             color: var(--text-light);
+            margin: 0;
         }
 
         .dual-upload-section {
@@ -171,17 +229,31 @@
             margin-bottom: 2rem;
         }
 
+        .upload-header {
+            margin-bottom: 2rem;
+        }
+
+        .upload-header h2 {
+            font-size: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .upload-header p {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
         .upload-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
-            margin-top: 2rem;
+            margin-bottom: 2rem;
         }
 
         .upload-box {
             border: 2px dashed var(--border);
             border-radius: 12px;
-            padding: 2rem;
+            padding: 2.5rem 2rem;
             text-align: center;
             transition: all 0.3s;
             cursor: pointer;
@@ -189,9 +261,10 @@
             position: relative;
         }
 
-        .upload-box:hover {
+        .upload-box:hover:not(.uploaded) {
             border-color: var(--primary);
             background: rgba(99, 102, 241, 0.05);
+            transform: translateY(-2px);
         }
 
         .upload-box.uploaded {
@@ -206,44 +279,68 @@
             left: 1rem;
             background: var(--primary);
             color: white;
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .upload-box.uploaded .upload-number {
+            background: var(--success);
         }
 
         .upload-icon {
-            font-size: 3rem;
+            font-size: 3.5rem;
             margin-bottom: 1rem;
         }
 
         .upload-box h3 {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             margin-bottom: 0.5rem;
             color: var(--text);
         }
 
-        .upload-box p {
+        .upload-box > p {
             color: var(--text-light);
-            font-size: 0.9rem;
-            margin: 0.5rem 0;
+            font-size: 0.95rem;
+            margin: 0.5rem 0 1rem;
         }
 
-        .upload-box .instructions {
+        .upload-requirements {
             background: white;
             border-radius: 6px;
-            padding: 0.75rem;
+            padding: 1rem;
             margin-top: 1rem;
-            font-size: 0.85rem;
             text-align: left;
         }
 
-        .upload-box .instructions li {
-            margin: 0.25rem 0;
+        .upload-requirements strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+
+        .upload-requirements ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .upload-requirements li {
+            padding: 0.25rem 0;
             color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        .upload-requirements li::before {
+            content: "✓ ";
+            color: var(--success);
+            font-weight: bold;
+            margin-right: 0.5rem;
         }
 
         .file-input {
@@ -253,10 +350,10 @@
         .upload-button {
             background: var(--primary);
             color: white;
-            padding: 10px 24px;
+            padding: 12px 28px;
             border: none;
             border-radius: 6px;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
@@ -265,6 +362,26 @@
 
         .upload-button:hover {
             background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .audio-preview {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .audio-preview p {
+            font-size: 0.9rem;
+            color: var(--success);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .audio-preview audio {
+            width: 100%;
         }
 
         .analyze-button {
@@ -277,9 +394,9 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            margin-top: 2rem;
             display: none;
             box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            width: 100%;
         }
 
         .analyze-button:hover:not(:disabled) {
@@ -293,19 +410,6 @@
             box-shadow: none;
         }
 
-        .audio-preview {
-            margin-top: 1rem;
-            padding: 1rem;
-            background: white;
-            border-radius: 6px;
-            display: none;
-        }
-
-        .audio-preview audio {
-            width: 100%;
-            margin-top: 0.5rem;
-        }
-
         .loading {
             display: none;
             text-align: center;
@@ -313,6 +417,7 @@
             padding: 3rem;
             background: var(--white);
             border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
         .spinner {
@@ -327,6 +432,17 @@
 
         @keyframes spin {
             to { transform: rotate(360deg); }
+        }
+
+        .loading p {
+            font-size: 1.1rem;
+            color: var(--text);
+        }
+
+        .loading p:last-child {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
         }
 
         .results-section {
@@ -554,9 +670,34 @@
             color: var(--primary);
         }
 
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--text-light);
+            background: var(--white);
+            border-top: 1px solid var(--border);
+            margin-top: 4rem;
+        }
+
+        footer p {
+            margin: 0.5rem 0;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 0 20px;
+            }
+
+            .header-content {
+                padding: 0 20px;
+            }
+
+            .tool-header {
+                padding: 40px 0 30px;
+            }
+
+            .tool-header h1 {
+                font-size: 2rem;
             }
 
             .upload-grid {
@@ -571,11 +712,19 @@
                 flex-direction: column;
             }
 
-            .tool-header h1 {
-                font-size: 2rem;
+            .button {
+                width: 100%;
             }
 
             .component-list {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .steps-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -605,61 +754,96 @@
             <div class="validation-badge-icon">🇧🇷</div>
             <div class="validation-badge-text">
                 <strong>Validated for Brazilian Portuguese</strong>
-                <p>Using validated cutoff points: AVQI > 1.33 and ABI > 2.94 for dysphonia detection</p>
+                <p>Using validated cutoff points: AVQI > 1.33 and ABI > 2.94 for dysphonia detection. Based on peer-reviewed research and clinical validation studies.</p>
             </div>
         </div>
 
-        <div class="info-highlight">
-            <h3>🎯 What are AVQI and ABI?</h3>
-            <p><strong>AVQI (Acoustic Voice Quality Index)</strong> combines 6 acoustic parameters into a single validated score for overall dysphonia severity. More reliable than single-parameter measurements.</p>
-            <p style="margin-top: 0.75rem;"><strong>ABI (Acoustic Breathiness Index)</strong> combines 9 acoustic parameters specifically designed to quantify breathiness perception with high accuracy.</p>
+        <div class="info-box">
+            <p><strong>🎯 What are AVQI and ABI?</strong></p>
+            <p><strong>AVQI (Acoustic Voice Quality Index)</strong> combines 6 acoustic parameters into a single validated score for overall dysphonia severity. Validated for Brazilian Portuguese using counting 1-11 + sustained /a/.</p>
+            <p style="margin-top: 0.75rem;"><strong>ABI (Acoustic Breathiness Index)</strong> combines 9 acoustic parameters specifically designed to quantify breathiness perception. Uses the same protocol: counting 1-11 + sustained /a/.</p>
+            <p style="margin-top: 0.75rem; font-size: 0.9rem; color: var(--text-light);"><em>Protocol validated by Englert et al. (2021) for Brazilian Portuguese with 150 subjects.</em></p>
+        </div>
+
+        <div class="protocol-steps">
+            <h3>📋 Standard AVQI/ABI Protocol</h3>
+            <div class="steps-grid">
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <h4>Record Speech</h4>
+                    <p>Patient counting numbers 1-11 at normal volume and pace</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <h4>Record Vowel</h4>
+                    <p>3-5 seconds of sustained /a/ at comfortable pitch</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <h4>Upload Both</h4>
+                    <p>Analysis requires both recordings for accurate calculation</p>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">4</div>
+                    <h4>Get Results</h4>
+                    <p>AVQI and ABI scores with clinical interpretation</p>
+                </div>
+            </div>
         </div>
 
         <div class="dual-upload-section">
-            <h2 style="margin-bottom: 1.5rem;">Upload Two Recordings</h2>
-            <p style="color: var(--text-light); margin-bottom: 2rem;">
-                For accurate AVQI and ABI calculation, we need two separate recordings following the standard protocol:
-            </p>
+            <div class="upload-header">
+                <h2>Upload Two Recordings</h2>
+                <p>AVQI and ABI require counting numbers 1-11 and sustained vowel /a/ for accurate calculation (validated protocol for Brazilian Portuguese)</p>
+            </div>
 
             <div class="upload-grid">
-                <div class="upload-box" id="csUploadBox">
+                <div class="upload-box" id="csUploadBox" onclick="document.getElementById('csFileInput').click()">
                     <div class="upload-number">1</div>
-                    <div class="upload-icon">🗣️</div>
-                    <h3>Continuous Speech</h3>
-                    <p>Patient reading passage or speaking naturally</p>
-                    <div class="instructions">
-                        <strong>Recording Instructions:</strong>
-                        <ul style="list-style: none; padding-left: 0;">
-                            <li>✓ 10-20 seconds duration</li>
-                            <li>✓ Natural pitch and volume</li>
-                            <li>✓ Conversational pace</li>
+                    <div class="upload-icon">🔢</div>
+                    <h3>Counting Numbers 1-11</h3>
+                    <p>Patient counting from one to eleven</p>
+                    
+                    <div class="upload-requirements">
+                        <strong>Recording Guidelines:</strong>
+                        <ul>
+                            <li>Count 1, 2, 3... up to 11</li>
+                            <li>Normal speaking voice</li>
+                            <li>Steady, conversational pace</li>
+                            <li>Quiet environment</li>
                         </ul>
                     </div>
+                    
                     <input type="file" id="csFileInput" class="file-input" accept="audio/*">
-                    <button class="upload-button" onclick="document.getElementById('csFileInput').click()">Choose File</button>
+                    <button class="upload-button" onclick="event.stopPropagation(); document.getElementById('csFileInput').click()">Choose File</button>
+                    
                     <div class="audio-preview" id="csPreview">
-                        <p style="font-size: 0.9rem; color: var(--success); font-weight: 600;">✓ File uploaded successfully</p>
+                        <p>✓ File uploaded successfully</p>
                         <audio id="csAudio" controls></audio>
                     </div>
                 </div>
 
-                <div class="upload-box" id="svUploadBox">
+                <div class="upload-box" id="svUploadBox" onclick="document.getElementById('svFileInput').click()">
                     <div class="upload-number">2</div>
                     <div class="upload-icon">🎵</div>
                     <h3>Sustained Vowel /a/</h3>
                     <p>Patient sustaining "aahhh" vowel</p>
-                    <div class="instructions">
-                        <strong>Recording Instructions:</strong>
-                        <ul style="list-style: none; padding-left: 0;">
-                            <li>✓ 3-5 seconds duration</li>
-                            <li>✓ Steady pitch and volume</li>
-                            <li>✓ Don't fade at end</li>
+                    
+                    <div class="upload-requirements">
+                        <strong>Recording Guidelines:</strong>
+                        <ul>
+                            <li>3-5 seconds duration</li>
+                            <li>Steady pitch and volume</li>
+                            <li>Don't fade at end</li>
+                            <li>One continuous breath</li>
                         </ul>
                     </div>
+                    
                     <input type="file" id="svFileInput" class="file-input" accept="audio/*">
-                    <button class="upload-button" onclick="document.getElementById('svFileInput').click()">Choose File</button>
+                    <button class="upload-button" onclick="event.stopPropagation(); document.getElementById('svFileInput').click()">Choose File</button>
+                    
                     <div class="audio-preview" id="svPreview">
-                        <p style="font-size: 0.9rem; color: var(--success); font-weight: 600;">✓ File uploaded successfully</p>
+                        <p>✓ File uploaded successfully</p>
                         <audio id="svAudio" controls></audio>
                     </div>
                 </div>
@@ -674,7 +858,7 @@
             <div class="spinner"></div>
             <p style="font-size: 1.2rem; font-weight: 600;">Calculating AVQI and ABI...</p>
             <p style="color: var(--text-light); font-size: 0.95rem; margin-top: 0.5rem;">
-                Using dual-file method with validated algorithms • This may take 15-20 seconds
+                Analyzing multiparametric indices • This may take 15-20 seconds
             </p>
         </div>
 
@@ -685,11 +869,11 @@
                 <div class="score-card normal" id="avqiCard">
                     <h2>AVQI Score</h2>
                     <div class="score" id="avqiScore">--</div>
-                    <div class="cutoff">Cutoff: 1.33</div>
+                    <div class="cutoff">Cutoff: > 1.33 indicates dysphonia</div>
                     <div class="status normal-status" id="avqiStatus">Loading...</div>
                     
                     <details class="components-detail">
-                        <summary>View 6 component parameters</summary>
+                        <summary>View 6 component parameters →</summary>
                         <div class="component-list" id="avqiComponents"></div>
                     </details>
                 </div>
@@ -697,11 +881,11 @@
                 <div class="score-card normal" id="abiCard">
                     <h2>ABI Score</h2>
                     <div class="score" id="abiScore">--</div>
-                    <div class="cutoff">Cutoff: 2.94</div>
+                    <div class="cutoff">Cutoff: > 2.94 indicates breathiness</div>
                     <div class="status normal-status" id="abiStatus">Loading...</div>
                     
                     <details class="components-detail">
-                        <summary>View 9 component parameters</summary>
+                        <summary>View 9 component parameters →</summary>
                         <div class="component-list" id="abiComponents"></div>
                     </details>
                 </div>
@@ -714,7 +898,7 @@
                 </div>
             </div>
 
-            <div style="background: var(--white); border-radius: 12px; padding: 2rem; margin-bottom: 2rem;">
+            <div style="background: var(--white); border-radius: 12px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
                 <h3 style="margin-bottom: 1.5rem;">Traditional Acoustic Parameters</h3>
                 <div class="results-grid">
                     <div class="result-card">
@@ -756,37 +940,70 @@
         </div>
     </div>
 
-    <footer style="padding: 3rem 0; text-align: center; color: var(--text-light); background: var(--white); border-top: 1px solid var(--border); margin-top: 4rem;">
-        <p><strong>Phonalab</strong> - Professional Voice Analysis Tools</p>
-        <p style="font-size: 0.9rem; margin-top: 0.5rem;">
-            Developed by Dr. Jorge C. Lucero, University of Brasília • For clinical correlation only
-        </p>
+    <footer>
+        <div class="container">
+            <p><strong>Phonalab</strong> - Professional Voice Analysis Tools</p>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">
+                © 2025 Jorge C. Lucero, University of Brasília • For clinical correlation only
+            </p>
+        </div>
     </footer>
 
     <script>
+        const API_URL = 'https://voice-analyzer-api.onrender.com';
         let csFile = null;
         let svFile = null;
         let currentResults = null;
 
+        // Continuous Speech file handler
         document.getElementById('csFileInput').addEventListener('change', (e) => {
             if (e.target.files.length > 0) {
-                csFile = e.target.files[0];
-                document.getElementById('csUploadBox').classList.add('uploaded');
-                document.getElementById('csPreview').style.display = 'block';
-                document.getElementById('csAudio').src = URL.createObjectURL(csFile);
-                checkBothFilesUploaded();
+                handleCSFile(e.target.files[0]);
             }
         });
 
+        // Sustained Vowel file handler
         document.getElementById('svFileInput').addEventListener('change', (e) => {
             if (e.target.files.length > 0) {
-                svFile = e.target.files[0];
-                document.getElementById('svUploadBox').classList.add('uploaded');
-                document.getElementById('svPreview').style.display = 'block';
-                document.getElementById('svAudio').src = URL.createObjectURL(svFile);
-                checkBothFilesUploaded();
+                handleSVFile(e.target.files[0]);
             }
         });
+
+        function handleCSFile(file) {
+            if (!file.type.startsWith('audio/')) {
+                alert('Please upload an audio file');
+                return;
+            }
+
+            if (file.size > 50 * 1024 * 1024) {
+                alert('File size must be less than 50MB');
+                return;
+            }
+
+            csFile = file;
+            document.getElementById('csUploadBox').classList.add('uploaded');
+            document.getElementById('csPreview').style.display = 'block';
+            document.getElementById('csAudio').src = URL.createObjectURL(csFile);
+            checkBothFilesUploaded();
+        }
+
+        function handleSVFile(file) {
+            if (!file.type.startsWith('audio/')) {
+                alert('Please upload an audio file');
+                return;
+            }
+
+            if (file.size > 50 * 1024 * 1024) {
+                alert('File size must be less than 50MB');
+                return;
+            }
+
+            svFile = file;
+            document.getElementById('svUploadBox').classList.add('uploaded');
+            document.getElementById('svPreview').style.display = 'block';
+            document.getElementById('svAudio').src = URL.createObjectURL(svFile);
+            checkBothFilesUploaded();
+        }
 
         function checkBothFilesUploaded() {
             if (csFile && svFile) {
@@ -795,6 +1012,8 @@
         }
 
         async function analyzeVoice() {
+            const button = document.getElementById('analyzeButton');
+            button.disabled = true;
             document.getElementById('loadingSection').style.display = 'block';
             document.getElementById('resultsSection').style.display = 'none';
 
@@ -803,13 +1022,14 @@
                 formData.append('continuous_speech', csFile);
                 formData.append('sustained_vowel', svFile);
 
-                const response = await fetch('https://voice-analyzer-api.onrender.com/analyze-full', {
+                const response = await fetch(`${API_URL}/analyze-full`, {
                     method: 'POST',
                     body: formData
                 });
 
                 if (!response.ok) {
-                    throw new Error('Analysis failed');
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.error || `Server returned ${response.status}`);
                 }
 
                 const data = await response.json();
@@ -817,10 +1037,11 @@
                 displayResults(data);
 
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Analysis error:', error);
                 alert('Analysis error: ' + error.message + '\n\nPlease ensure both audio files are valid and try again.');
             } finally {
                 document.getElementById('loadingSection').style.display = 'none';
+                button.disabled = false;
             }
         }
 
@@ -830,11 +1051,14 @@
             document.getElementById('avqiScore').textContent = avqiScore.toFixed(2);
             document.getElementById('avqiStatus').textContent = data.avqi.status;
             
+            const avqiCard = document.getElementById('avqiCard');
+            const avqiStatus = document.getElementById('avqiStatus');
+            
             if (avqiScore > 1.33) {
-                document.getElementById('avqiCard').classList.remove('normal');
-                document.getElementById('avqiCard').classList.add('elevated');
-                document.getElementById('avqiStatus').classList.remove('normal-status');
-                document.getElementById('avqiStatus').classList.add('elevated-status');
+                avqiCard.classList.remove('normal');
+                avqiCard.classList.add('elevated');
+                avqiStatus.classList.remove('normal-status');
+                avqiStatus.classList.add('elevated-status');
             }
 
             // AVQI Components
@@ -844,7 +1068,7 @@
                     .map(([key, val]) => `
                         <div class="component-item">
                             <span>${key.toUpperCase()}</span>
-                            <strong>${val.toFixed(2)}</strong>
+                            <strong>${typeof val === 'number' ? val.toFixed(3) : val}</strong>
                         </div>
                     `).join('');
             }
@@ -854,11 +1078,14 @@
             document.getElementById('abiScore').textContent = abiScore.toFixed(2);
             document.getElementById('abiStatus').textContent = data.abi.status;
             
+            const abiCard = document.getElementById('abiCard');
+            const abiStatus = document.getElementById('abiStatus');
+            
             if (abiScore > 2.94) {
-                document.getElementById('abiCard').classList.remove('normal');
-                document.getElementById('abiCard').classList.add('elevated');
-                document.getElementById('abiStatus').classList.remove('normal-status');
-                document.getElementById('abiStatus').classList.add('elevated-status');
+                abiCard.classList.remove('normal');
+                abiCard.classList.add('elevated');
+                abiStatus.classList.remove('normal-status');
+                abiStatus.classList.add('elevated-status');
             }
 
             // ABI Components
@@ -868,59 +1095,61 @@
                     .map(([key, val]) => `
                         <div class="component-item">
                             <span>${key.toUpperCase()}</span>
-                            <strong>${val.toFixed(2)}</strong>
+                            <strong>${typeof val === 'number' ? val.toFixed(3) : val}</strong>
                         </div>
                     `).join('');
             }
 
             // Traditional parameters
             document.getElementById('f0Value').textContent = data.f0.mean.toFixed(1) + ' Hz';
-            document.getElementById('f0Status').textContent = data.f0.status;
+            document.getElementById('f0Status').textContent = data.f0.status || '';
             
             document.getElementById('jitterValue').textContent = data.jitter.percent.toFixed(2) + '%';
-            document.getElementById('jitterStatus').textContent = data.jitter.status;
+            document.getElementById('jitterStatus').textContent = data.jitter.status || '';
             
             document.getElementById('shimmerValue').textContent = data.shimmer.percent.toFixed(2) + '%';
-            document.getElementById('shimmerStatus').textContent = data.shimmer.status;
+            document.getElementById('shimmerStatus').textContent = data.shimmer.status || '';
             
             document.getElementById('hnrValue').textContent = data.hnr.mean.toFixed(1) + ' dB';
-            document.getElementById('hnrStatus').textContent = data.hnr.status;
+            document.getElementById('hnrStatus').textContent = data.hnr.status || '';
             
             document.getElementById('cppValue').textContent = data.cpp.value.toFixed(2) + ' dB';
-            document.getElementById('cppStatus').textContent = data.cpp.status;
+            document.getElementById('cppStatus').textContent = data.cpp.status || '';
 
             // Interpretation
             const list = document.getElementById('interpretationList');
             list.innerHTML = '';
             
-            const overall = document.createElement('li');
-            overall.innerHTML = `<strong>${data.interpretation.overall_assessment}</strong>`;
-            list.appendChild(overall);
+            if (data.interpretation) {
+                const overall = document.createElement('li');
+                overall.innerHTML = `<strong>${data.interpretation.overall_assessment || 'Analysis complete'}</strong>`;
+                list.appendChild(overall);
 
-            if (data.interpretation.concerns && data.interpretation.concerns.length > 0) {
-                const concernsHeader = document.createElement('li');
-                concernsHeader.innerHTML = '<strong style="color: var(--warning);">Key Concerns:</strong>';
-                list.appendChild(concernsHeader);
-                
-                data.interpretation.concerns.forEach(concern => {
-                    const li = document.createElement('li');
-                    li.textContent = concern;
-                    li.style.marginLeft = '1.5rem';
-                    list.appendChild(li);
-                });
-            }
+                if (data.interpretation.concerns && data.interpretation.concerns.length > 0) {
+                    const concernsHeader = document.createElement('li');
+                    concernsHeader.innerHTML = '<strong style="color: var(--warning);">Key Concerns:</strong>';
+                    list.appendChild(concernsHeader);
+                    
+                    data.interpretation.concerns.forEach(concern => {
+                        const li = document.createElement('li');
+                        li.textContent = concern;
+                        li.style.marginLeft = '1.5rem';
+                        list.appendChild(li);
+                    });
+                }
 
-            if (data.interpretation.recommendations && data.interpretation.recommendations.length > 0) {
-                const recsHeader = document.createElement('li');
-                recsHeader.innerHTML = '<strong style="color: var(--primary);">Recommendations:</strong>';
-                list.appendChild(recsHeader);
-                
-                data.interpretation.recommendations.forEach(rec => {
-                    const li = document.createElement('li');
-                    li.textContent = rec;
-                    li.style.marginLeft = '1.5rem';
-                    list.appendChild(li);
-                });
+                if (data.interpretation.recommendations && data.interpretation.recommendations.length > 0) {
+                    const recsHeader = document.createElement('li');
+                    recsHeader.innerHTML = '<strong style="color: var(--primary);">Recommendations:</strong>';
+                    list.appendChild(recsHeader);
+                    
+                    data.interpretation.recommendations.forEach(rec => {
+                        const li = document.createElement('li');
+                        li.textContent = rec;
+                        li.style.marginLeft = '1.5rem';
+                        list.appendChild(li);
+                    });
+                }
             }
 
             // Show results
@@ -936,32 +1165,69 @@
         }
 
         async function downloadPDF() {
-            if (!currentResults) return;
+            if (!currentResults) {
+                alert('No analysis results available. Please analyze recordings first.');
+                return;
+            }
 
+            const button = event.target;
+            const originalText = button.textContent;
+            
             try {
-                const response = await fetch('https://voice-analyzer-api.onrender.com/generate-pdf', {
+                button.textContent = '⏳ Generating PDF...';
+                button.disabled = true;
+
+                const response = await fetch(`${API_URL}/generate-pdf`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        report_type: 'voice',
-                        analysis_results: currentResults
+                        report_type: 'avqi',
+                        analysis_results: currentResults,
+                        patient_info: null
                     })
                 });
 
                 if (!response.ok) {
-                    throw new Error('PDF generation failed');
+                    throw new Error(`Server returned ${response.status}`);
                 }
 
                 const blob = await response.blob();
-                const url = URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = `avqi_abi_report_${new Date().toISOString().slice(0,10)}.pdf`;
-                link.click();
-                URL.revokeObjectURL(url);
+                const fileName = `avqi_abi_report_${new Date().toISOString().slice(0,10)}.pdf`;
+                
+                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                
+                if (isMobile) {
+                    const url = URL.createObjectURL(blob);
+                    window.open(url, '_blank');
+                    setTimeout(() => URL.revokeObjectURL(url), 1000);
+                } else {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = fileName;
+                    link.style.display = 'none';
+                    document.body.appendChild(link);
+                    link.click();
+                    setTimeout(() => {
+                        document.body.removeChild(link);
+                        URL.revokeObjectURL(url);
+                    }, 200);
+                }
+
+                button.textContent = '✅ Downloaded!';
+                button.style.background = '#10b981';
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '';
+                    button.disabled = false;
+                }, 2500);
 
             } catch (error) {
-                alert('PDF generation failed: ' + error.message);
+                console.error('PDF Error:', error);
+                alert('Could not generate PDF: ' + error.message);
+                button.textContent = originalText;
+                button.disabled = false;
             }
         }
 
@@ -980,9 +1246,17 @@
             document.getElementById('csFileInput').value = '';
             document.getElementById('svFileInput').value = '';
             
+            // Reset score cards to normal
+            document.getElementById('avqiCard').className = 'score-card normal';
+            document.getElementById('abiCard').className = 'score-card normal';
+            document.getElementById('avqiStatus').className = 'status normal-status';
+            document.getElementById('abiStatus').className = 'status normal-status';
+            
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
+    <!-- Vercel Analytics -->
+    <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
-                
+                        
