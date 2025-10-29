@@ -3,10 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AVQI & ABI Analyzer - Professional Voice Quality Assessment | Phonalab</title>
-    <meta name="description" content="First web-based AVQI and ABI calculator. Validated multiparametric indices for Brazilian Portuguese. Professional voice quality and breathiness assessment.">
     
+    <!-- Primary Meta Tags -->
+    <title>AVQI & ABI Analyzer - Multiparametric Voice Quality Assessment | Phonalab</title>
+    <meta name="title" content="AVQI & ABI Analyzer - Multiparametric Voice Quality Assessment | Phonalab">
+    <meta name="description" content="First web-based AVQI and ABI calculator. Validated multiparametric indices for Brazilian Portuguese. Professional voice quality and breathiness assessment combining 6+9 acoustic parameters into validated clinical scores.">
+    <meta name="keywords" content="AVQI calculator, ABI calculator, acoustic voice quality index, acoustic breathiness index, multiparametric voice analysis, dysphonia severity, breathiness measurement, voice quality assessment, Brazilian Portuguese validation, Englert protocol, continuous speech analysis, sustained vowel analysis">
+    <meta name="author" content="Dr. Jorge C. Lucero">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://avqi.phonalab.com">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://avqi.phonalab.com">
+    <meta property="og:title" content="AVQI & ABI Analyzer - Multiparametric Voice Quality Assessment">
+    <meta property="og:description" content="First web-based AVQI and ABI calculator. Validated multiparametric analysis for Brazilian Portuguese with professional clinical interpretation.">
+    <meta property="og:image" content="https://phonalab.com/og-avqi-abi.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://avqi.phonalab.com">
+    <meta property="twitter:title" content="AVQI & ABI Analyzer - Multiparametric Voice Quality Assessment">
+    <meta property="twitter:description" content="First web-based AVQI and ABI calculator. Validated multiparametric analysis for Brazilian Portuguese.">
+    <meta property="twitter:image" content="https://phonalab.com/twitter-avqi-abi.png">
+    
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
+    
+    <!-- Schema.org for AVQI/ABI Tool -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Phonalab AVQI & ABI Analyzer",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "Web browser",
+      "description": "Web-based AVQI and ABI calculator for multiparametric voice quality and breathiness assessment, validated for Brazilian Portuguese",
+      "url": "https://avqi.phonalab.com",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "AVQI (Acoustic Voice Quality Index) calculation",
+        "ABI (Acoustic Breathiness Index) calculation",
+        "6-parameter AVQI analysis (CPPS, HNR, shimmer, shimmer dB, slope, tilt)",
+        "9-parameter ABI analysis",
+        "Validated for Brazilian Portuguese",
+        "Counting 1-11 + sustained /a/ protocol",
+        "Clinical interpretation with cutoff points",
+        "PDF report generation",
+        "Component parameter breakdown"
+      ],
+      "audience": {
+        "@type": "PeopleAudience",
+        "audienceType": "Speech-language pathologists, voice therapists, laryngologists, voice researchers"
+      }
+    }
+    </script>
     
     <style>
         * {
@@ -65,6 +124,7 @@
         .nav-links {
             display: flex;
             gap: 2rem;
+            align-items: center;
         }
 
         .nav-links a {
@@ -76,6 +136,151 @@
 
         .nav-links a:hover {
             color: var(--primary);
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            color: var(--text);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .dropdown-toggle:hover {
+            background: var(--bg);
+            color: var(--primary);
+        }
+
+        .dropdown-arrow {
+            font-size: 0.7rem;
+            transition: transform 0.3s;
+        }
+
+        .dropdown.active .dropdown-arrow {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s;
+            z-index: 1000;
+            margin-top: 0.5rem;
+        }
+
+        .dropdown.active .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1.25rem;
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.3s;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .dropdown-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-menu a:hover {
+            background: var(--bg);
+            color: var(--primary);
+            padding-left: 1.5rem;
+        }
+
+        .dropdown-menu a:first-child {
+            border-radius: 8px 8px 0 0;
+        }
+
+        .dropdown-menu a:last-child {
+            border-radius: 0 0 8px 8px;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text);
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 999;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .mobile-menu.active {
+            max-height: 500px;
+        }
+
+        .mobile-menu nav {
+            padding: 1rem 0;
+        }
+
+        .mobile-menu a {
+            display: block;
+            padding: 0.75rem 40px;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .mobile-menu a:hover {
+            background: var(--bg);
+            color: var(--primary);
+            padding-left: 50px;
+        }
+
+        .mobile-tools-section {
+            border-top: 1px solid var(--border);
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+        }
+
+        .mobile-tools-header {
+            padding: 0.5rem 40px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .container {
@@ -337,7 +542,7 @@
         }
 
         .upload-requirements li::before {
-            content: "âœ“ ";
+            content: "✓ ";
             color: var(--success);
             font-weight: bold;
             margin-right: 0.5rem;
@@ -626,7 +831,7 @@
         }
 
         .interpretation-list li::before {
-            content: "â†’";
+            content: "→";
             color: var(--primary);
             margin-right: 1rem;
             font-weight: bold;
@@ -724,6 +929,14 @@
                 display: none;
             }
 
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
             .steps-grid {
                 grid-template-columns: 1fr;
             }
@@ -733,25 +946,38 @@
 <body>
     <header class="header">
         <div class="header-content">
-            <a href="https://phonalab.com" class="logo">ðŸ”¬ Phonalab</a>
+            <a href="https://phonalab.com" class="logo">🔬 Phonalab</a>
+            
             <nav class="nav-links">
                 <a href="https://phonalab.com">Home</a>
-                <a href="https://analyzer.phonalab.com">Voice Analyzer</a>
-                <a href="https://avqi.phonalab.com">AVQI/ABI</a>
-                <a href="https://pitch.phonalab.com">Pitch Visualizer</a>
+                
+                <div class="dropdown" id="toolsDropdown">
+                    <div class="dropdown-toggle">
+                        <span>Tools</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="https://analyzer.phonalab.com">🎤 Voice Analyzer</a>
+                        <a href="https://avqi.phonalab.com">📊 AVQI & ABI</a>
+                        <a href="https://pitch.phonalab.com">🎵 Pitch Visualizer</a>
+                    </div>
+                </div>
+                
+                <a href="https://phonalab.com#about">About</a>
+                <a href="https://forms.gle/oZvWFGcHwr7VFNRAA" target="_blank">Feedback</a>
             </nav>
         </div>
     </header>
 
     <div class="container">
         <div class="tool-header">
-            <div class="badge">âœ¨ World's First Web-Based AVQI & ABI Calculator</div>
+            <div class="badge">✨ World's First Web-Based AVQI & ABI Calculator</div>
             <h1>AVQI & ABI Analyzer</h1>
             <p class="subtitle">Professional multiparametric voice quality and breathiness assessment</p>
         </div>
 
         <div class="validation-badge">
-            <div class="validation-badge-icon">ðŸ‡§ðŸ‡·</div>
+            <div class="validation-badge-icon">🇧🇷</div>
             <div class="validation-badge-text">
                 <strong>Validated for Brazilian Portuguese</strong>
                 <p>Using validated cutoff points: AVQI > 1.33 and ABI > 2.94 for dysphonia detection. Based on peer-reviewed research and clinical validation studies.</p>
@@ -759,14 +985,14 @@
         </div>
 
         <div class="info-box">
-            <p><strong>ðŸŽ¯ What are AVQI and ABI?</strong></p>
+            <p><strong>🎯 What are AVQI and ABI?</strong></p>
             <p><strong>AVQI (Acoustic Voice Quality Index)</strong> combines 6 acoustic parameters into a single validated score for overall dysphonia severity. Validated for Brazilian Portuguese using counting 1-11 + sustained /a/.</p>
             <p style="margin-top: 0.75rem;"><strong>ABI (Acoustic Breathiness Index)</strong> combines 9 acoustic parameters specifically designed to quantify breathiness perception. Uses the same protocol: counting 1-11 + sustained /a/.</p>
             <p style="margin-top: 0.75rem; font-size: 0.9rem; color: var(--text-light);"><em>Protocol validated by Englert et al. (2021) for Brazilian Portuguese with 150 subjects.</em></p>
         </div>
 
         <div class="protocol-steps">
-            <h3>ðŸ“‹ Standard AVQI/ABI Protocol</h3>
+            <h3>📋 Standard AVQI/ABI Protocol</h3>
             <div class="steps-grid">
                 <div class="step-item">
                     <div class="step-number">1</div>
@@ -800,7 +1026,7 @@
             <div class="upload-grid">
                 <div class="upload-box" id="csUploadBox" onclick="document.getElementById('csFileInput').click()">
                     <div class="upload-number">1</div>
-                    <div class="upload-icon">ðŸ”¢</div>
+                    <div class="upload-icon">🔢</div>
                     <h3>Counting Numbers 1-11</h3>
                     <p>Patient counting from one to eleven</p>
                     
@@ -818,14 +1044,14 @@
                     <button class="upload-button" onclick="event.stopPropagation(); document.getElementById('csFileInput').click()">Choose File</button>
                     
                     <div class="audio-preview" id="csPreview">
-                        <p>âœ“ File uploaded successfully</p>
+                        <p>✓ File uploaded successfully</p>
                         <audio id="csAudio" controls></audio>
                     </div>
                 </div>
 
                 <div class="upload-box" id="svUploadBox" onclick="document.getElementById('svFileInput').click()">
                     <div class="upload-number">2</div>
-                    <div class="upload-icon">ðŸŽµ</div>
+                    <div class="upload-icon">🎵</div>
                     <h3>Sustained Vowel /a/</h3>
                     <p>Patient sustaining "aahhh" vowel</p>
                     
@@ -843,14 +1069,14 @@
                     <button class="upload-button" onclick="event.stopPropagation(); document.getElementById('svFileInput').click()">Choose File</button>
                     
                     <div class="audio-preview" id="svPreview">
-                        <p>âœ“ File uploaded successfully</p>
+                        <p>✓ File uploaded successfully</p>
                         <audio id="svAudio" controls></audio>
                     </div>
                 </div>
             </div>
 
             <button class="analyze-button" id="analyzeButton" onclick="analyzeVoice()">
-                ðŸ”¬ Calculate AVQI & ABI
+                🔬 Calculate AVQI & ABI
             </button>
         </div>
 
@@ -858,7 +1084,7 @@
             <div class="spinner"></div>
             <p style="font-size: 1.2rem; font-weight: 600;">Calculating AVQI and ABI...</p>
             <p style="color: var(--text-light); font-size: 0.95rem; margin-top: 0.5rem;">
-                Analyzing multiparametric indices â€¢ This may take 15-20 seconds
+                Analyzing multiparametric indices • This may take 15-20 seconds
             </p>
         </div>
 
@@ -873,7 +1099,7 @@
                     <div class="status normal-status" id="avqiStatus">Loading...</div>
                     
                     <details class="components-detail">
-                        <summary>View 6 component parameters â†’</summary>
+                        <summary>View 6 component parameters →</summary>
                         <div class="component-list" id="avqiComponents"></div>
                     </details>
                 </div>
@@ -885,7 +1111,7 @@
                     <div class="status normal-status" id="abiStatus">Loading...</div>
                     
                     <details class="components-detail">
-                        <summary>View 9 component parameters â†’</summary>
+                        <summary>View 9 component parameters →</summary>
                         <div class="component-list" id="abiComponents"></div>
                     </details>
                 </div>
@@ -931,10 +1157,10 @@
 
             <div class="action-buttons">
                 <button class="button button-primary" onclick="downloadPDF()">
-                    ðŸ“„ Download PDF Report
+                    📄 Download PDF Report
                 </button>
                 <button class="button button-secondary" onclick="analyzeAnother()">
-                    ðŸ”„ Analyze Another Patient
+                    🔄 Analyze Another Patient
                 </button>
             </div>
         </div>
@@ -944,7 +1170,7 @@
         <div class="container">
             <p><strong>Phonalab</strong> - Professional Voice Analysis Tools</p>
             <p style="font-size: 0.9rem; margin-top: 0.5rem;">
-                Â© 2025 Jorge C. Lucero, University of BrasÃ­lia â€¢ For clinical correlation only
+                © 2025 Jorge C. Lucero, University of Brasília • For clinical correlation only
             </p>
         </div>
     </footer>
@@ -954,6 +1180,39 @@
         let csFile = null;
         let svFile = null;
         let currentResults = null;
+
+        // Dropdown toggle for desktop
+        const toolsDropdown = document.getElementById('toolsDropdown');
+        const dropdownToggle = toolsDropdown.querySelector('.dropdown-toggle');
+        
+        dropdownToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toolsDropdown.classList.toggle('active');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!toolsDropdown.contains(e.target)) {
+                toolsDropdown.classList.remove('active');
+            }
+        });
+        
+        // Mobile menu toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            mobileMenuToggle.textContent = mobileMenu.classList.contains('active') ? '✕' : '☰';
+        });
+        
+        // Close mobile menu when clicking a link
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                mobileMenuToggle.textContent = '☰';
+            });
+        });
 
         // Continuous Speech file handler
         document.getElementById('csFileInput').addEventListener('change', (e) => {
@@ -1174,7 +1433,7 @@
             const originalText = button.textContent;
             
             try {
-                button.textContent = 'â³ Generating PDF...';
+                button.textContent = '⏳ Generating PDF...';
                 button.disabled = true;
 
                 const response = await fetch(`${API_URL}/generate-pdf`, {
@@ -1214,7 +1473,7 @@
                     }, 200);
                 }
 
-                button.textContent = 'âœ… Downloaded!';
+                button.textContent = '✅ Downloaded!';
                 button.style.background = '#10b981';
                 
                 setTimeout(() => {
@@ -1258,5 +1517,24 @@
     <!-- Vercel Analytics -->
     <script defer src="/_vercel/insights/script.js"></script>
 </body>
-</html>
-                        
+</html><a href="https://forms.gle/oZvWFGcHwr7VFNRAA" target="_blank">Feedback</a>
+            </nav>
+            
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                ☰
+            </button>
+        </div>
+        
+        <div class="mobile-menu" id="mobileMenu">
+            <nav>
+                <a href="https://phonalab.com">Home</a>
+                
+                <div class="mobile-tools-section">
+                    <div class="mobile-tools-header">Tools</div>
+                    <a href="https://analyzer.phonalab.com">🎤 Voice Analyzer</a>
+                    <a href="https://avqi.phonalab.com">📊 AVQI & ABI</a>
+                    <a href="https://pitch.phonalab.com">🎵 Pitch Visualizer</a>
+                </div>
+                
+                <a href="https://phonalab.com#about">About</a>
+                
