@@ -1260,6 +1260,9 @@
             }
         }
 
+        // REPLACE your analyzeVoice function in avqi-abi-index.html
+        // Look for the function starting with "async function analyzeVoice()"
+
         async function analyzeVoice() {
             const button = document.getElementById('analyzeButton');
             button.disabled = true;
@@ -1276,20 +1279,68 @@
                     body: formData
                 });
 
+                // Handle different error types
                 if (!response.ok) {
-                    const errorData = await response.json().catch(() => ({}));
-                    throw new Error(errorData.error || `Server returned ${response.status}`);
+                    const errorData = await response.json();
+                    
+                    // Duration limit error (HTTP 413)
+                    if (response.status === 413 && errorData.detail) {
+                        throw new Error(errorData.detail);
+                    }
+                    
+                    // Other errors
+                    throw new Error(errorData.detail || 'Analysis failed. Please try again.');
                 }
 
                 const data = await response.json();
                 currentResults = data;
                 displayResults(data);
-
+                
             } catch (error) {
                 console.error('Analysis error:', error);
-                alert('Analysis error: ' + error.message + '\n\nPlease ensure both audio files are valid and try again.');
-            } finally {
+                
+                // Show user-friendly error message
                 document.getElementById('loadingSection').style.display = 'none';
+                
+                const errorHTML = `
+                    <div style="background: #fee2e2; border: 2px solid #ef4444; border-radius: 8px; padding: 2rem; margin: 2rem 0; text-align: center;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
+                        <h3 style="color: #991b1b; margin-bottom: 1rem;">Analysis Error</h3>
+                        <p style="color: #7f1d1d; font-size: 1.1rem; margin-bottom: 1rem;">
+                            ${error.message}
+                        </p>
+                        ${error.message.includes('too long') ? `
+                            <div style="background: white; border-radius: 6px; padding: 1rem; margin-top: 1rem; text-align: left;">
+                                <strong style="color: #0369a1;">💡 Optimal Durations:</strong>
+                                <ul style="margin: 0.5rem 0; padding-left: 2rem; color: #555;">
+                                    <li><strong>Continuous Speech:</strong> 10-30 seconds</li>
+                                    <li><strong>Sustained Vowel /a/:</strong> 3-5 seconds</li>
+                                    <li>One or both of your recordings exceed the 30-second limit</li>
+                                </ul>
+                                <p style="margin-top: 0.5rem; color: #666; font-size: 0.9rem;">
+                                    Please trim your recording(s) and try again.
+                                </p>
+                            </div>
+                        ` : error.message.includes('too short') ? `
+                            <div style="background: white; border-radius: 6px; padding: 1rem; margin-top: 1rem; text-align: left;">
+                                <strong style="color: #0369a1;">💡 Tip:</strong>
+                                <p style="margin: 0.5rem 0; color: #555;">
+                                    Sustained vowel recordings need to be at least 1 second long. 
+                                    Please record again, sustaining the /a/ vowel for 3-5 seconds.
+                                </p>
+                            </div>
+                        ` : ''}
+                        <button onclick="location.reload()" style="margin-top: 1rem; padding: 0.75rem 2rem; background: #6366f1; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem;">
+                            Upload New Files
+                        </button>
+                    </div>
+                `;
+                
+                const resultsSection = document.getElementById('resultsSection');
+                resultsSection.innerHTML = errorHTML;
+                resultsSection.style.display = 'block';
+                
+            } finally {
                 button.disabled = false;
             }
         }
