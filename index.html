@@ -1346,6 +1346,10 @@
         }
 
         function displayResults(data) {
+
+            // Hide loading section first
+            document.getElementById('loadingSection').style.display = 'none';
+            
             // AVQI
             const avqiScore = data.avqi.score;
             document.getElementById('avqiScore').textContent = avqiScore.toFixed(2);
